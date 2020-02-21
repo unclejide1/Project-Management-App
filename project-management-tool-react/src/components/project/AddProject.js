@@ -24,10 +24,10 @@ import React, { Component } from 'react'
 
          const newProject = {
             projectName:this.state.projectName,
-            projectIdentifier:this.State.projectIdentifier,
-            projectDescription:this.State.projectDescription,
-            startDate:this.State.startDate,
-            endDate:this.State.endDate
+            projectIdentifier:this.state.projectIdentifier,
+            projectDescription:this.state.projectDescription,
+            startDate:this.state.startDate,
+            endDate:this.state.endDate
          }
          console.log(newProject);
      }
