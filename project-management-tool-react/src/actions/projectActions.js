@@ -8,6 +8,10 @@ export const createProject = (project, history) => async dispatch => {
     try{
         const res = await axios.post("http://localhost:9090/api/project", project)
         history.push("/dashboard");
+        dispatch({
+            type: GET_ERRORS,
+            payload: {}
+          });
     }catch (err) {
         dispatch({
           type: GET_ERRORS,
@@ -25,9 +29,17 @@ export const getProjects = () => async dispatch => {
 }
 
 export const getProject = (id, history) => async dispatch => {
-    const res = await axios.get(`http://localhost:9090/api/project/${id}`);
-    dispatch({
-        type: GET_PROJECT,
-        payload: res.data
-    });
+
+    try{
+        const res = await axios.get(`http://localhost:9090/api/project/${id}`);
+        dispatch({
+            type: GET_PROJECT,
+            payload: res.data
+        });
+
+    }catch(err){
+        alert("project with projectIdentifier: " + id + " does not exist, you will be redirected to your dash board")
+        history.push("/dashboard");
+    }
+    
 }
