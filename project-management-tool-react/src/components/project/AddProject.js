@@ -96,9 +96,9 @@ AddProject.propTpes = {
     errors: PropTypes.object.isRequired
 }
 
-const mapStateToProject = state =>({
+const mapStateToProps = state =>({
     errors: state.errors
 })
-export default connect(mapStateToProject, {
+export default connect(mapStateToProps, {
     createProject
 }) (AddProject);
