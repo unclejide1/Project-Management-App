@@ -13,7 +13,8 @@ import classnames from "classnames";
             projectIdentifier:"",
             projectDescription:"",
             startDate:"",
-            endDate:""
+            endDate:"",
+            errors:{}
         };
 
         this.onChange = this.onChange.bind(this);
@@ -21,6 +22,10 @@ import classnames from "classnames";
     }
 
     componentWillReceiveProps(nextProps){
+        if(nextProps.errors){
+            this.setState({errors: nextProps.errors})
+        }
+
         const {id,
         projectName,
         projectIdentifier,
@@ -62,6 +67,7 @@ import classnames from "classnames";
     }
 
     render() {
+        const {errors} = this.state;
         return (
             <div className="register">
         <div className="container">
@@ -71,9 +77,11 @@ import classnames from "classnames";
                     <hr />
                     <form onSubmit = {this.onSubmit}>
                         <div className="form-group" >
-                            <input type="text" className="form-control form-control-lg " placeholder="Project Name" name="projectName" 
+                            <input type="text" className={classnames("form-control form-control-lg ", {"is-invalid":errors.projectName})} placeholder="Project Name" name="projectName" 
                             value ={this.state.projectName}
-                            onChange = {this.onChange}/>
+                            onChange = {this.onChange}
+                            />
+                            {errors.projectName && <div className="invalid-feedback">{errors.projectName}</div>}
                         </div>
                         <div className="form-group">
                             <input type="text" className="form-control form-control-lg" placeholder="Unique Project ID" name ="projectIdentifier"
@@ -83,9 +91,10 @@ import classnames from "classnames";
                         </div>
                         
                         <div className="form-group">
-                            <textarea className="form-control form-control-lg" placeholder="Project Description" name = "projectDescription"
+                            <textarea className={classnames("form-control form-control-lg ", {"is-invalid":errors.projectDescription})} placeholder="Project Description" name = "projectDescription"
                             value ={this.state.projectDescription}
                             onChange = {this.onChange}></textarea>
+                            {errors.projectName && <div className="invalid-feedback">{errors.projectName}</div>}
                         </div>
                         <h6>Start Date</h6>
                         <div className="form-group">
@@ -113,11 +122,13 @@ import classnames from "classnames";
 updateProject.propTypes = {
     getProject: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired,
-    project: PropTypes.object.isRequired
+    project: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state =>({
-    project: state.project.project
+    project: state.project.project,
+    errors: state.errors
 })
 
 export default connect(mapStateToProps, {getProject, createProject}) (updateProject);
