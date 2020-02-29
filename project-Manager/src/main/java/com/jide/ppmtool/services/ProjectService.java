@@ -26,8 +26,8 @@ public class ProjectService {
             if(project.getId() == null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
-//                project.setCreatedAt(project.getCreatedAt());
-//                project.setUpdatedAt(project.getUpdatedAt());
+                project.setCreatedAt(project.getCreatedAt());
+                project.setUpdatedAt(project.getUpdatedAt());
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             }
