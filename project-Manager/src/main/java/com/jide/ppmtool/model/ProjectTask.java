@@ -1,6 +1,9 @@
 package com.jide.ppmtool.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -10,10 +13,11 @@ public class ProjectTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(updatable = false)
+    @Column(updatable = false,unique = true)
     private String projectSequence;
 
     @NotNull(message = "Please include a project summary")
+    @NotBlank(message = "Please include a project summary")
     private  String summary;
 
     private String acceptanceCriteria;
@@ -30,6 +34,11 @@ public class ProjectTask {
 
     @Column(updatable = false)
     private String projectIdentifier;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, updatable = false, name = "backlog_id")
+    @JsonIgnore
+    private Backlog backlog;
 
 
     @PrePersist
@@ -123,6 +132,14 @@ public class ProjectTask {
 
     public void setProjectIdentifier(String projectIdentifier) {
         this.projectIdentifier = projectIdentifier;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 
     @Override
