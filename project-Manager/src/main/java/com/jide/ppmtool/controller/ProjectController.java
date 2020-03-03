@@ -20,11 +20,16 @@ import java.util.Map;
 @CrossOrigin
 public class ProjectController {
 
-    @Autowired
     private ProjectService projectService;
 
-    @Autowired
+
     private MapValidationErrorService mapValidationErrorService;
+
+    @Autowired
+    public ProjectController(MapValidationErrorService mapValidationErrorService, ProjectService projectService) {
+        this.projectService = projectService;
+        this.mapValidationErrorService = mapValidationErrorService;
+    }
 
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid  @RequestBody Project project, BindingResult result){
@@ -34,7 +39,7 @@ public class ProjectController {
             return errorMap;
         }
         Project createdProject = projectService.saveOrUpdate(project);
-        return  new ResponseEntity<Project>(project, HttpStatus.CREATED);
+        return  new ResponseEntity<Project>(createdProject, HttpStatus.CREATED);
     }
 
     @GetMapping("/{projectId}")
