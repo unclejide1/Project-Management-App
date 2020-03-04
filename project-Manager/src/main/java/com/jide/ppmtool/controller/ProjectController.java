@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,32 +33,33 @@ public class ProjectController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid  @RequestBody Project project, BindingResult result){
+    public ResponseEntity<?> createNewProject(@Valid  @RequestBody Project project, BindingResult result,
+                                              Principal principal){
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationError(result);
         if(errorMap != null){
             return errorMap;
         }
-        Project createdProject = projectService.saveOrUpdate(project);
+        Project createdProject = projectService.saveOrUpdate(project, principal.getName());
         return  new ResponseEntity<Project>(createdProject, HttpStatus.CREATED);
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<?> getProjectbyId(@PathVariable String projectId){
-        Project foundProject = projectService.findByProjectId(projectId);
+    public ResponseEntity<?> getProjectbyId(@PathVariable String projectId, Principal principal){
+        Project foundProject = projectService.findByProjectId(projectId, principal.getName());
 
         return new ResponseEntity<>(foundProject, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Project> getAllProjects(){
-        return projectService.findAllProjects();
+    public Iterable<Project> getAllProjects(Principal principal){
+        return projectService.findAllProjects(principal.getName());
     }
 
 
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<?> deleteProject(@PathVariable String projectId){
-        projectService.deleteProjectByIdentifier(projectId);
+    public ResponseEntity<?> deleteProject(@PathVariable String projectId, Principal principal){
+        projectService.deleteProjectByIdentifier(projectId, principal.getName());
 
         return new ResponseEntity<>("Project with Id: '" +  projectId + "' was deleted", HttpStatus.OK);
     }
