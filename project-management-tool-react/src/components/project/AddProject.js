@@ -91,7 +91,7 @@ import classnames from "classnames";
         )
     }
 }
-AddProject.propTpes = {
+AddProject.propTypes = {
     createProject: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 }
@@ -99,6 +99,7 @@ AddProject.propTpes = {
 const mapStateToProps = state =>({
     errors: state.errors
 })
+
 export default connect(mapStateToProps, {
     createProject
 }) (AddProject);
