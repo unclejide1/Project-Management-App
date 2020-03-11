@@ -1,6 +1,6 @@
 import axios from "axios";
-import {GET_ERRORS, GET_PROJECT, DELETE_PROJECT} from "./types";
-import {GET_PROJECTS} from "./types";
+import {GET_ERRORS, GET_PROJECT, DELETE_PROJECT, GET_PROJECTS} from "./types";
+
 
 
 
