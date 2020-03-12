@@ -2,6 +2,9 @@ package com.jide.ppmtool.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,13 +32,37 @@ public class Project {
     private Date endDate;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @Column(updatable = false)
+    @CreationTimestamp
     private Date createdAt;
+
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @UpdateTimestamp
     private Date updatedAt;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
+    private Backlog backlog;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
+    private String projectLeader;
 
 
     public Project() {
     }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -101,15 +128,31 @@ public class Project {
         this.updatedAt = updatedAt;
     }
 
-    @PrePersist
-    protected void onCreate(){
-        this.createdAt = new Date();
+    public User getUser() {
+        return user;
     }
 
-    @PreUpdate
-    protected void onUpdate(){
-        this.updatedAt = new Date();
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    public String getProjectLeader() {
+        return projectLeader;
+    }
+
+    public void setProjectLeader(String projectLeader) {
+        this.projectLeader = projectLeader;
+    }
+
+    //    @PrePersist
+//    protected void onCreate(){
+//        this.createdAt = new Date();
+//    }
+//
+//    @PreUpdate
+//    protected void onUpdate(){
+//        this.updatedAt = new Date();
+//    }
 
 
 }
