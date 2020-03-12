@@ -1,5 +1,6 @@
 package com.jide.ppmtool.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -26,10 +27,13 @@ public class ProjectTask {
 
     private Integer priority;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date dueDate;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
 
     @Column(updatable = false)
