@@ -38,7 +38,12 @@ import PropTypes from "prop-types";
                     return(
                         <div className ="alert alert-danger text-center" role = "alert"> {errors.projectNotFound}</div>
                     );
-                }else {
+                } else if(errors.projectIdentifier){
+                    return(
+                        <div className ="alert alert-danger text-center" role = "alert"> {errors.projectIdentifier}</div>
+                    );
+                }
+                else {
                     return(
                         <div className ="alert alert-info text-center" role = "alert"> No Project Tasks to display, create one</div>
                     );
