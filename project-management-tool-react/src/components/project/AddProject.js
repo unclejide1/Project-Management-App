@@ -91,6 +91,7 @@ import classnames from "classnames";
         )
     }
 }
+
 AddProject.propTypes = {
     createProject: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
